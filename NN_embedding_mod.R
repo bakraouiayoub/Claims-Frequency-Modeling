@@ -41,12 +41,9 @@ dta_freq$Exposure <- pmin(dta_freq$Exposure, 1) # correct for unreasonable obser
 
 set.seed(254451710)
 u <- runif(nrow(dta_freq),min = 0,max = 1)
-#u <- sample (c (1: nrow ( dta_freq )), round (0.9* nrow ( dta_freq )), replace = FALSE )
-dta_freq$train <- u < 0.8
-dta_freq$test <- !(dta_freq$train)
-#train_dat <- subset(dta_freq,subset = train)                # Training dataset
-#test_dat <- subset(dta_freq,subset = test)                # Test dataset
-
+dta_freq$train <- u < 0.8                   # Training dataset
+dta_freq$test <- !(dta_freq$train)          # Test dataset
+               
 rm(u)
 
 

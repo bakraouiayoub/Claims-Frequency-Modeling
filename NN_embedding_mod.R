@@ -3,19 +3,9 @@ library(CASdatasets)
 library(ggplot2)
 library(keras)
 library(mgcv)
-#suppressMessages(library(glmnet))
-#suppressMessages(library(xgboost))
-#library(catboost)
-#suppressMessages(library(lightgbm))
-#library(EIX)
-#library(tensorflow)
-#use_condaenv("keras-tf",required = T)
-#library(rpart)
 library(data.table)
 library(plyr)
-#library(rpart.plot)
 library(tictoc)
-#library(tree)
 data("freMTPL2freq")
 dta_freq <- freMTPL2freq
 rm(freMTPL2freq)
@@ -29,9 +19,9 @@ dta_freq$VehGas <- factor(dta_freq$VehGas)
 region_orig_lev <- levels(dta_freq$Region) 
 region_new_lev <- c("R1","R2","R3","R4","R5","R6","R7","R8","R9","R10","R11","R12","R13","R14","R15",
                     "R16","R17","R18","R19","R20","R21")
-modified_levels <- cbind(original_levels=region_orig_lev,modified_levels=region_new_lev) # The original levels of the
-# variable region and their 
-# modified counterparts
+modified_levels <- cbind(original_levels=region_orig_lev,modified_levels=region_new_lev) # The original levels of the 
+                                                                                         # variable region and their 
+                                                                                         # modified counterparts
 
 levels(dta_freq$Region) <- region_new_lev
 rm(region_orig_lev,region_new_lev) # cleaning the environment
@@ -147,11 +137,6 @@ rm(N_train_glm1,N_train_glm2,N_test_glm1,N_test_glm2,N_train_obs,N_test_obs,expo
 
 
 
-
-
-
-
-
 # Neural Network Modeling
 
 # 1) We start with fetaure pre-processing of the continuous variables -------------------
@@ -227,7 +212,6 @@ VehBr.dim <- length(unique(dta_NN$VehBrandX[dta_NN$train]))
 NN_embedd_with_offset <- function(q,hidden_activ,output_activ,init_weights,embedd_d){
 set.seed(seed_nn)
 tensorflow::set_random_seed(seed_nn)
-#use_session_with_seed(42)
 n_q <- length(q)
 
 Design <- layer_input(shape = c(q0),dtype = "float32",name = "Design")
@@ -266,8 +250,7 @@ return(Model)
 
 NN_final_Model_fit <- function(q,hidden_activ,output_activ,init_weights,embedd_d,batch_size_,epochs_){
 set.seed(seed_nn) 
-tensorflow::set_random_seed(seed_nn)
-#use_session_with_seed(42)  
+tensorflow::set_random_seed(seed_nn)  
 Y_train <- as.matrix(dta_NN$ClaimNb[dta_freq$train])
 Y_test <- as.matrix(dta_NN$ClaimNb[dta_freq$test])
 

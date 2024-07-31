@@ -53,7 +53,6 @@ rm(Exp_by_Area,Exp_by_ClmNb,Exp_by_vehpow,Freq_by_Area,Freq_by_vehpow) # Clean t
 
 set.seed(254451710)
 u <- runif(nrow(dta_freq),min = 0,max = 1)
-#u <- sample (c (1: nrow ( dta_freq )), round (0.9* nrow ( dta_freq )), replace = FALSE )
 dta_freq$train <- u < 0.8                 # Training dataset 
 dta_freq$test <- !(dta_freq$train)        # Test dataset
                

@@ -2,14 +2,11 @@ library(MASS)
 library(CASdatasets)
 library(ggplot2)
 library(keras)
-#library(tensorflow)
-#use_condaenv("keras-tf",required = T)
 library(rpart)
 library(data.table)
 library(plyr)
 library(rpart.plot)
 library(tictoc)
-#library(tree)
 data("freMTPL2freq")
 dta_freq <- freMTPL2freq
 rm(freMTPL2freq)
@@ -39,8 +36,6 @@ dta_freq$Exposure <- pmin(dta_freq$Exposure, 1) # correct for unreasonable obser
 Exp_by_ClmNb <- with(dta_freq,tapply(Exposure,ClaimNb,sum)) # Exposure by the number of claims
 
 hist(dta_freq$Exposure,xlab = "Exposures",ylab = "Number of Policies",main = "Histogram of the exposures (678013 policies)")
-#dta_freq$ClaimNb[dta_freq$ClaimNb>4] <- 4 # Setting policies with more than 4 claims to having exactly 4 claims.
-#dta_freq$Exposure[dta_freq$Exposure>1] <- 1 # Capping exposure more than 1 to 1 year exposure.
 Exp_by_Area <-  with(dta_freq,tapply(Exposure,Area,sum)) # Exposure by Area code
 Exp_by_vehpow <-  with(dta_freq,tapply(Exposure,VehPower,sum)) # Exposure by Vehicle Power group
 
@@ -59,11 +54,9 @@ rm(Exp_by_Area,Exp_by_ClmNb,Exp_by_vehpow,Freq_by_Area,Freq_by_vehpow) # Clean t
 set.seed(254451710)
 u <- runif(nrow(dta_freq),min = 0,max = 1)
 #u <- sample (c (1: nrow ( dta_freq )), round (0.9* nrow ( dta_freq )), replace = FALSE )
-dta_freq$train <- u < 0.8
-dta_freq$test <- !(dta_freq$train)
-#train_dat <- subset(dta_freq,subset = train)                # Training dataset
-#test_dat <- subset(dta_freq,subset = test)                # Test dataset
-
+dta_freq$train <- u < 0.8                 # Training dataset 
+dta_freq$test <- !(dta_freq$train)        # Test dataset
+               
 rm(u)
 
 
@@ -377,10 +370,13 @@ dta_NN_tilde <- dta_NN
 poisson.loss <- function(pred,obs){return(2*(mean(pred)-mean(obs)+mean(log((obs/pred)^obs))))}
 
   # Functions defining the Networks
-seed_nn <- 100 # Random seed to reproduce the results 
+
+seed_nn <- 100 # Random seed to reproduce the results
+
 # Function for the neural network with exposure as an offset where q is a vector containing the hidden layers units
 # Hidden_activ (output_activ) are the acivation functions for the hidden layers and the output respectively.
 # init_weights are the initial weights.
+
 NN_with_offset <- function(q,hidden_activ,output_activ,init_weights){
 set.seed(seed_nn)
 tensorflow::set_random_seed(seed_nn)

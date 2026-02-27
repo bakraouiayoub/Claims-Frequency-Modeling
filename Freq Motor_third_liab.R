@@ -308,7 +308,7 @@ rbind(Table_9,Table_7[3,],Table_6[2,],Table_5[1,-1])
 
    #  Neural Network modeling of frequency  ------------------
 
-# 1) We start with fetaure pre-processing of the continuous and categorical variables.
+# 1) We start with feature pre-processing of the continuous and categorical variables.
 
 # Function that pre-processes continuous variables
 Preprocess.Cont <- function(var1,dat1){    
@@ -504,3 +504,4 @@ rbind(Table_NN,Table_5[1,-1])
 toc()
 
 (conclusion_table <- rbind(Table_NN[c(1,3,5),],Table_9,Table_7[3,],Table_6[2,],Table_5[1,-1]))
+
